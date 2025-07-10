@@ -4,6 +4,7 @@ import { defineConfig } from "vitepress";
 export default defineConfig({
   title: "npubcash-docs",
   description: "Documentation for the npubcash API",
+  base: "/npubcash-docs/",
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     nav: [
