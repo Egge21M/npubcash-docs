@@ -19,7 +19,9 @@ export default defineConfig({
       },
       {
         text: "API",
-        items: [{ text: "Runtime API Examples", link: "/api-examples" }],
+        items: [
+          { text: "Authentication", link: "/docs/api/authentication.md" },
+        ],
       },
       {
         text: "npubcash-server",
