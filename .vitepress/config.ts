@@ -25,7 +25,7 @@ export default defineConfig({
       },
       {
         text: "npubcash-server",
-        items: [{ text: "Deployment", link: "/api-examples" }],
+        items: [{ text: "Deployment", link: "/docs/server/deployment.md" }],
       },
     ],
 
