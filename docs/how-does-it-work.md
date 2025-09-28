@@ -1,34 +1,30 @@
 # How does it work?
 
-npub.cash is a Lightning-Address powered by Cashu and nostr.
-It allows you to receive Lightning payments on a LUD16 address without registration.
+npub.cash is a Lightning address powered by Cashu and nostr. It lets anyone receive Lightning payments to a LUD‑16 address without registration.
 
 ## Identity
 
-npub.cash uses nostr identities. The public key becomes the address.
-A npub.cash lightning address looks something like this
+npub.cash uses nostr identities. Your nostr public key becomes your address.
+
+A npub.cash Lightning address looks like this:
 
 ```email
 npub1mhcr4j594hsrnen594d7700n2t03n8gdx83zhxzculk6sh9nhwlq7uc226@npub.cash
 ```
 
-Therefore any nostr public key is a valid npub.cash address. The server simply saves
-a received payment and associates it with the public key.
+Any nostr public key is a valid npub.cash address. The server associates incoming payments with the provided public key.
 
-If a user wants to retrieve their saved payments, they request them
-and provide a valid NIP-98 header. The server validates the header and
-parses their public key from it. It then looks up saves payments for
-the public key and returns them.
+To retrieve your saved payments you authenticate using a NIP‑98 header. The server validates the header, extracts your public key, looks up saved payments for that key, and returns them.
 
-Thanks to this npub.cash does not require sign-up or setup. Any nostr user can
-use it straight away
+Because identity comes from nostr, npub.cash requires no sign‑up or setup—nostr users can use it immediately.
 
 ## Payments
 
-Npub.cash uses Cashu to handle payments, eliminating the need for traditional payment rails.
-When the server receives a Lightning address request, it asks a Cashu mint for a Bolt11
-`quote`. The mint responds with an invoice, which the server redirects to the payer.
+npub.cash uses Cashu to handle payments.
 
-The mint will then respond with an invoice to pay, which gets redirected
-to the payer by the server. The server then keeps check whether the invoice was paid.
-Once it has been, the server saves the mint's quote in its database.
+1. A payer sends a Lightning address request to the server for your nostr key.
+2. The server requests a Cashu BOLT11 quote from its configured mint.
+3. The mint returns a Lightning invoice; the server forwards this invoice to the payer.
+4. The server monitors the invoice status. When it is paid, the server stores the paid quote and associates it with your public key.
+
+Later, you can claim funds by authenticating (NIP‑98) and requesting your saved quotes from the server.
