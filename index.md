@@ -10,8 +10,11 @@ hero:
       text: How does it work?
       link: /docs/how-does-it-work
     - theme: alt
-      text: Get started
-      link: /api-examples
+      text: Deploy your own
+      link: /docs/server/deployment
+    - theme: alt
+      text: Client SDK
+      link: /docs/sdk/npubcash-sdk
 
 features:
   - title: Lightning Addresses for everyone
