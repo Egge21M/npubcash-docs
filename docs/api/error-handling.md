@@ -1,4 +1,4 @@
-# Error Handling
+# Error Handling <Badge type="warning" text="npubcash v2" />
 
 This guide covers how to handle errors when working with the npubcash API.
 

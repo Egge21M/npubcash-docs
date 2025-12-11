@@ -1,4 +1,4 @@
-# API Endpoints
+# API Endpoints <Badge type="warning" text="npubcash v2" />
 
 This document provides a comprehensive reference for all npubcash-server v2 API endpoints.
 

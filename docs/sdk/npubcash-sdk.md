@@ -1,4 +1,4 @@
-# NpubCash SDK (`npubcash-sdk`)
+# NpubCash SDK (`npubcash-sdk`) <Badge type="warning" text="npubcash v2" />
 
 TypeScript client for the npubcash v2 API. Ships ESM and CJS builds with type declarations. Works in modern browsers and Node 18+ (WebSocket may need a polyfill in Node). It can be used to request pending mint quotes from npubcash-server.
 

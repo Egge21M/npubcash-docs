@@ -1,4 +1,4 @@
-# Deploying npubcash-server
+# Deploying npubcash-server <Badge type="warning" text="npubcash v2" />
 
 This guide walks through building and running your own `npubcash-server` with Docker. You will need access to a PostgreSQL database and a public hostname (if deploying on the internet).
 

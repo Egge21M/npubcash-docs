@@ -1,4 +1,4 @@
-# Getting Started
+# Getting Started <Badge type="warning" text="npubcash v2" />
 
 Welcome to npubcash! This guide will help you get started with receiving Lightning payments using your nostr identity.
 

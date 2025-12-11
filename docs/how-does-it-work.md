@@ -1,4 +1,4 @@
-# How does it work?
+# How does it work? <Badge type="warning" text="npubcash v2" />
 
 npub.cash is a Lightning address powered by Cashu and nostr. It lets anyone receive Lightning payments to a LUD‑16 address without registration.
 

@@ -1,4 +1,4 @@
-# Authentication
+# Authentication <Badge type="warning" text="npubcash v2" />
 
 Most endpoints of the API are protected and accept either one of two authentication headers
 
