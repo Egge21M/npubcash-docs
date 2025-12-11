@@ -1,4 +1,4 @@
-## NpubCash SDK (`npubcash-sdk`)
+# NpubCash SDK (`npubcash-sdk`)
 
 TypeScript client for the npubcash v2 API. Ships ESM and CJS builds with type declarations. Works in modern browsers and Node 18+ (WebSocket may need a polyfill in Node). It can be used to request pending mint quotes from npubcash-server.
 
@@ -17,8 +17,7 @@ yarn add npubcash-sdk
 npubcash-server expects request to be [authenticated](../api/authentication.md). The SDK handles everything for you, but requires access to a nostr signer.
 
 ```ts
-
-signer: (e: Omit<NostrEvent, "id" | "sig>" | "pubkey") => NostrEvent
+signer: (e: Omit<NostrEvent, "id" | "sig" | "pubkey">) => NostrEvent;
 ```
 
 ### Quick start

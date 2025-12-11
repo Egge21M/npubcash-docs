@@ -7,11 +7,11 @@ hero:
   text: "Documentation for the npubcash API"
   actions:
     - theme: brand
-      text: How does it work?
-      link: /docs/how-does-it-work
+      text: Get Started
+      link: /docs/getting-started
     - theme: alt
-      text: Deploy your own
-      link: /docs/server/deployment
+      text: API Reference
+      link: /docs/api/endpoints
     - theme: alt
       text: Client SDK
       link: /docs/sdk/npubcash-sdk

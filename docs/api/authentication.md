@@ -50,3 +50,46 @@ requests, by including it as `Authentication` header.
 GET /api/v2/wallet/quotes
 Authentication: Bearer eyJhbGciOiJIUzI1NiIsInR...
 ```
+
+:::tip
+JWT tokens are typically valid for about 5 minutes. The SDK automatically handles token refresh, but if you're using the API directly, you'll need to request a new token when it expires.
+:::
+
+## Token Expiration
+
+JWT tokens have a limited lifetime (typically 5 minutes). When a token expires, you'll receive a `401 Unauthorized` response. To continue making requests:
+
+1. Request a new JWT token using NIP-98 authentication
+2. Use the new token for subsequent requests
+
+The SDK handles this automatically, but when using the API directly, you'll need to implement token refresh logic.
+
+## Example: Using JWT Auth
+
+Here's a complete example of using JWT authentication:
+
+```bash
+# Step 1: Get JWT token with NIP-98
+curl -X GET "https://npub.cash/api/v2/auth/nip98" \
+  -H "Authorization: Nostr eyJpZCI6ImZlOTY0ZTc1ODkwMzM..."
+
+# Response:
+# {
+#   "error": false,
+#   "data": {
+#     "token": "eyJhbGciOiJIUzI1NiIsInR..."
+#   }
+# }
+
+# Step 2: Use JWT token for API requests
+curl -X GET "https://npub.cash/api/v2/wallet/quotes" \
+  -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR..."
+```
+
+## Security Considerations
+
+- **Never share your private key** - Keep your nostr private key secure
+- **Use HTTPS** - Always connect to npubcash servers over HTTPS
+- **Token storage** - If storing JWT tokens, use secure storage (not localStorage for sensitive apps)
+- **Token expiration** - JWT tokens expire quickly for security; implement proper refresh logic
+- **Signing extensions** - Be cautious with browser extensions that request signing permissions

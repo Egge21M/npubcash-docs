@@ -1,37 +1,56 @@
 import { defineConfig } from "vitepress";
 
-// https://vitepress.dev/reference/site-config
 export default defineConfig({
-  title: "npubcash-docs",
-  description: "Documentation for the npubcash API",
-  base: "/",
+  title: "npubcash Documentation",
+  description: "Documentation for the npubcash API and SDK",
+
   themeConfig: {
-    // https://vitepress.dev/reference/default-theme-config
-    nav: [{ text: "Home", link: "/" }],
+    nav: [
+      { text: "Home", link: "/" },
+      { text: "API", link: "/docs/api/endpoints" },
+      { text: "SDK", link: "/docs/sdk/npubcash-sdk" },
+      { text: "Deployment", link: "/docs/server/deployment" },
+    ],
 
     sidebar: [
       {
-        text: "General",
-        items: [{ text: "How does it work", link: "/docs/how-does-it-work" }],
-      },
-      {
-        text: "API",
+        text: "Getting Started",
         items: [
-          { text: "Authentication", link: "/docs/api/authentication.md" },
+          { text: "Getting Started", link: "/docs/getting-started" },
+          { text: "How does it work?", link: "/docs/how-does-it-work" },
         ],
       },
       {
-        text: "npubcash-server",
-        items: [{ text: "Deployment", link: "/docs/server/deployment.md" }],
+        text: "API Reference",
+        items: [
+          { text: "Endpoints", link: "/docs/api/endpoints" },
+          { text: "Authentication", link: "/docs/api/authentication" },
+          { text: "Error Handling", link: "/docs/api/error-handling" },
+        ],
       },
       {
-        text: "npubcash-sdk",
-        items: [{ text: "Client SDK", link: "/docs/sdk/npubcash-sdk.md" }],
+        text: "SDK",
+        items: [{ text: "npubcash-sdk", link: "/docs/sdk/npubcash-sdk" }],
+      },
+      {
+        text: "Server",
+        items: [{ text: "Deployment", link: "/docs/server/deployment" }],
       },
     ],
 
     socialLinks: [
-      { icon: "github", link: "https://github.com/cashubtc/npubcash-server" },
+      {
+        icon: "github",
+        link: "https://github.com/cashubtc/npubcash-server/tree/v2",
+      },
     ],
+
+    footer: {
+      message: "Released under the MIT License.",
+    },
+
+    search: {
+      provider: "local",
+    },
   },
 });
