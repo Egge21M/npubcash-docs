@@ -7,10 +7,7 @@ export default defineConfig({
   base: "/",
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
-    nav: [
-      { text: "Home", link: "/" },
-      { text: "Examples", link: "/markdown-examples" },
-    ],
+    nav: [{ text: "Home", link: "/" }],
 
     sidebar: [
       {
@@ -27,10 +24,14 @@ export default defineConfig({
         text: "npubcash-server",
         items: [{ text: "Deployment", link: "/docs/server/deployment.md" }],
       },
+      {
+        text: "npubcash-sdk",
+        items: [{ text: "Client SDK", link: "/docs/sdk/npubcash-sdk.md" }],
+      },
     ],
 
     socialLinks: [
-      { icon: "github", link: "https://github.com/vuejs/vitepress" },
+      { icon: "github", link: "https://github.com/cashubtc/npubcash-server" },
     ],
   },
 });
