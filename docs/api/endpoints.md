@@ -12,9 +12,10 @@ Most endpoints require authentication. See the [Authentication guide](./authenti
 
 ## Wallet Endpoints
 
-### Get All Quotes
+### Get Quotes
 
-Retrieve all quotes associated with the authenticated user.
+Retrieve paid mint quotes associated with the authenticated user. Consumers
+must mint these quotes directly with the mint identified by `mintUrl`.
 
 **Endpoint:** `GET /api/v2/wallet/quotes`
 
@@ -22,26 +23,41 @@ Retrieve all quotes associated with the authenticated user.
 
 **Query Parameters:**
 
-- `since` (optional): Unix timestamp in seconds. If provided, only returns quotes updated since this time.
+- `since` (optional): Return quotes paid after this Unix timestamp in seconds.
+- `limit` (optional): Page size. Defaults to 50.
+- `offset` (optional): Number of quotes to skip. Defaults to 0.
 
 **Response:**
 
 ```json
 {
   "error": false,
-  "data": [
-    {
-      "id": "quote-id-123",
-      "amount": 1000,
-      "mint": "https://mint.example",
-      "bolt11": "lnbc10u1p3...",
-      "paid": true,
-      "createdAt": 1234567890,
-      "updatedAt": 1234567890
-    }
-  ]
+  "data": {
+    "quotes": [
+      {
+        "createdAt": 1752500000,
+        "paidAt": 1752500030,
+        "expiresAt": 1752586400,
+        "mintUrl": "https://mint.example",
+        "quoteId": "quote-id-123",
+        "request": "lnbc10u1p3...",
+        "amount": 1000,
+        "state": "PAID",
+        "locked": false
+      }
+    ]
+  },
+  "metadata": {
+    "total": 1,
+    "limit": 50
+  }
 }
 ```
+
+Follow pagination until the number of retrieved quotes reaches
+`metadata.total`. The server continues to return paid quotes after a consumer
+has minted them, so consumers must durably track completed `(mintUrl, quoteId)`
+pairs.
 
 **Example:**
 
@@ -54,29 +70,8 @@ curl -X GET "https://npub.cash/api/v2/wallet/quotes" \
 curl -X GET "https://npub.cash/api/v2/wallet/quotes" \
   -H "Authorization: Nostr eyJpZCI6ImZlOTY0ZTc1ODkwMzM..."
 
-# With since parameter
-curl -X GET "https://npub.cash/api/v2/wallet/quotes?since=1234567890" \
-  -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR..."
-```
-
-### Get Quotes Since
-
-Retrieve quotes updated since a specific timestamp.
-
-**Endpoint:** `GET /api/v2/wallet/quotes`
-
-**Authentication:** Required (NIP-98 or JWT Bearer)
-
-**Query Parameters:**
-
-- `since` (required): Unix timestamp in seconds
-
-**Response:** Same as Get All Quotes
-
-**Example:**
-
-```bash
-curl -X GET "https://npub.cash/api/v2/wallet/quotes?since=1704067200" \
+# With pagination and a paid-at watermark
+curl -X GET "https://npub.cash/api/v2/wallet/quotes?since=1234567890&limit=50&offset=0" \
   -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR..."
 ```
 
