@@ -8,11 +8,11 @@ NIP-98 Auth is the basic authentication method inside npub.cash.
 It requires a valid NIP-98 header on every request.
 The exact format of the header is specified in the [nips repository](https://github.com/nostr-protocol/nips/blob/master/98.md).
 
-The generated token is then included as `Authentication` header in the request
+The generated token is then included as the `Authorization` header in the request.
 
 ```
 GET /api/v2/wallet/quotes
-Authentication: Nostr eyJpZCI6ImZlOTY0ZTc1ODkwMzM...
+Authorization: Nostr eyJpZCI6ImZlOTY0ZTc1ODkwMzM...
 ```
 
 :::warning
@@ -29,7 +29,7 @@ with a [NIP-98](#nip-98-auth) Auth header.
 
 ```
 GET /api/v2/auth/nip98
-Authentication: Nostr eyJpZCI6ImZlOTY0ZTc1ODkwMzM...
+Authorization: Nostr eyJpZCI6ImZlOTY0ZTc1ODkwMzM...
 ```
 
 The server will respond with a JSON payload including the token:
@@ -44,20 +44,20 @@ The server will respond with a JSON payload including the token:
 ```
 
 The bearer token retrieved from this endpoint must then be used to authenticate subsequent
-requests, by including it as `Authentication` header.
+requests by including it as the `Authorization` header.
 
 ```
 GET /api/v2/wallet/quotes
-Authentication: Bearer eyJhbGciOiJIUzI1NiIsInR...
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR...
 ```
 
 :::tip
-JWT tokens are typically valid for about 5 minutes. The SDK automatically handles token refresh, but if you're using the API directly, you'll need to request a new token when it expires.
+JWT tokens are valid for 30 minutes. The SDK automatically handles token refresh, but if you're using the API directly, you'll need to request a new token when it expires.
 :::
 
 ## Token Expiration
 
-JWT tokens have a limited lifetime (typically 5 minutes). When a token expires, you'll receive a `401 Unauthorized` response. To continue making requests:
+JWT tokens have a 30-minute lifetime. When a token expires, you'll receive a `401 Unauthorized` response. To continue making requests:
 
 1. Request a new JWT token using NIP-98 authentication
 2. Use the new token for subsequent requests
