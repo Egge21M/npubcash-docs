@@ -2,20 +2,19 @@
 
 We plan to consolidate the two public npub.cash services by the end of
 **July 2026**. After the cutover, both `npub.cash` and `npubx.cash` will point to
-the upgraded server that currently serves `npubx.cash`.
+the v2 service that currently serves `npubx.cash`.
 
 ## What is changing
 
 | Domain | Before the cutover | After the cutover |
 | --- | --- | --- |
-| `npub.cash` | v1 service | Upgraded v2/v3 service |
-| `npubx.cash` | v2 service | The same upgraded v2/v3 service |
+| `npub.cash` | v1 service | v2 service |
+| `npubx.cash` | v2 service | The same v2 service |
 
 The v1 and v2 APIs are **not backward compatible**. The v1 API will no longer
 be available through `npub.cash` after the cutover.
 
-The v3 server release remains compatible with v2 consumers. Its consumer API
-continues to use `/api/v2`; do not change requests to `/api/v3`.
+The consumer API continues to use `/api/v2` on both domains.
 
 ## If you use `npub.cash` (v1)
 
@@ -85,18 +84,29 @@ URL after the cutover.
 
 Before the cutover:
 
-1. Confirm that the client uses `/api/v2` and does not infer an API version from
-   the v3 server release number.
+1. Confirm that the client uses `/api/v2`.
 2. Smoke-test authentication and quote retrieval, and use normal HTTP retry and
    WebSocket reconnect behavior during the cutover.
 
-## If you change domains
+## Choosing domains after the cutover
 
-Both domains will reach the same service after the cutover, but they are still
-different origins. Choose one base URL and use it consistently.
+The Lightning address domain and the wallet's API domain are independent. An
+incoming quote is associated with the recipient's Nostr public key, not the
+domain used in the Lightning address. The wallet retrieves that quote by
+authenticating as the same public key.
+
+After the cutover, both domains reach the same service. This means a payment to
+`<user>@npub.cash` can be retrieved through the API at `https://npubx.cash`, and
+a payment to `<user>@npubx.cash` can be retrieved through
+`https://npub.cash`. Users may publish either Lightning address, and wallets may
+use either API domain.
+
+Using the same domain for the Lightning address and API base URL can make a
+configuration easier to understand, but it is not required.
 
 NIP-98 events authorize an exact URL. When changing between `npubx.cash` and
 `npub.cash`, generate new NIP-98 events and reconnect WebSocket subscriptions
-through the new host. Clients using the TypeScript SDK must give the same base
-URL to `NPCClient` and `JWTAuthProvider`; the provider will obtain a JWT as
-needed.
+through the new host. Within a wallet, use one API base URL consistently for
+HTTP, WebSocket, and authentication calls. Clients using the TypeScript SDK
+must give the same base URL to `NPCClient` and `JWTAuthProvider`; the provider
+will obtain a JWT as needed.
