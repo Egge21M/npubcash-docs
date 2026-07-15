@@ -1,4 +1,4 @@
-# Production migration <Badge type="danger" text="Action required by July 31, 2026" />
+# Production migration <Badge type="danger" text="v1 migration required by July 31, 2026" />
 
 We plan to consolidate the two public npub.cash services by the end of
 **July 2026**. After the cutover, both `npub.cash` and `npubx.cash` will point to
@@ -8,13 +8,20 @@ the v2 service that currently serves `npubx.cash`.
 
 | Domain | Before the cutover | After the cutover |
 | --- | --- | --- |
-| `npub.cash` | v1 service | v2 service |
-| `npubx.cash` | v2 service | The same v2 service |
+| `npub.cash` | v1 service | Canonical v2 service |
+| `npubx.cash` | v2 service | Temporary compatibility domain for the same v2 service |
 
 The v1 and v2 APIs are **not backward compatible**. The v1 API will no longer
 be available through `npub.cash` after the cutover.
 
-The consumer API continues to use `/api/v2` on both domains.
+The consumer API continues to use `/api/v2`. After the cutover, `npub.cash` is
+the canonical domain for Lightning addresses and API access.
+
+::: warning npubx.cash retirement
+`npubx.cash` will remain available as a compatibility domain through
+**December 31, 2026**. Migrate Lightning addresses and API configurations to
+`npub.cash` before it is retired.
+:::
 
 ## If you use `npub.cash` (v1)
 
@@ -68,8 +75,9 @@ Before the cutover:
    `mintUrl` rather than assuming one configured mint.
 4. Verify that proofs survive a restart, completed quotes are not minted twice,
    and interrupted mint attempts recover safely.
-5. Make the service base URL configurable and stop v1 traffic before the
-   end-of-July cutover.
+5. Make the service base URL configurable. Test against `npubx.cash` before the
+   cutover, then use the canonical `https://npub.cash` API after the cutover.
+6. Stop v1 traffic before the end-of-July cutover.
 
 Funds held by the v1 service will be returned out of band. They will not be
 transferred through the v2 API.
@@ -79,14 +87,17 @@ npub.cash integration until it supports v2.
 
 ## If you use `npubx.cash` (v2)
 
-No API migration is required. You may keep `https://npubx.cash` as your base
-URL after the cutover.
+The v2 API does not change, but you should migrate to the canonical
+`npub.cash` domain. `npubx.cash` will remain available only as a compatibility
+domain through December 31, 2026.
 
-Before the cutover:
+Prepare before the cutover:
 
-1. Confirm that the client uses `/api/v2`.
-2. Smoke-test authentication and quote retrieval, and use normal HTTP retry and
-   WebSocket reconnect behavior during the cutover.
+1. Make the API base URL and published Lightning-address domain configurable.
+2. Plan to switch both to `npub.cash` when the July cutover is complete.
+3. Generate new NIP-98 events for the `npub.cash` API URLs and reconnect any
+   WebSocket subscriptions through `npub.cash`.
+4. Smoke-test authentication and quote retrieval after switching.
 
 ## Choosing domains after the cutover
 
@@ -95,14 +106,15 @@ incoming quote is associated with the recipient's Nostr public key, not the
 domain used in the Lightning address. The wallet retrieves that quote by
 authenticating as the same public key.
 
-After the cutover, both domains reach the same service. This means a payment to
-`<user>@npub.cash` can be retrieved through the API at `https://npubx.cash`, and
-a payment to `<user>@npubx.cash` can be retrieved through
-`https://npub.cash`. Users may publish either Lightning address, and wallets may
-use either API domain.
+During the compatibility period, both domains reach the same service. This
+means a payment to `<user>@npub.cash` can be retrieved through the API at
+`https://npubx.cash`, and a payment to `<user>@npubx.cash` can be retrieved
+through `https://npub.cash`. This allows Lightning addresses and wallet API
+configurations to be migrated separately.
 
-Using the same domain for the Lightning address and API base URL can make a
-configuration easier to understand, but it is not required.
+Cross-domain access is transitional behavior, not the recommended final
+configuration. Use `npub.cash` for both new Lightning addresses and wallet API
+configurations, and migrate existing `npubx.cash` usage by December 31, 2026.
 
 NIP-98 events authorize an exact URL. When changing between `npubx.cash` and
 `npub.cash`, generate new NIP-98 events and reconnect WebSocket subscriptions
