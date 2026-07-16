@@ -64,12 +64,34 @@ The npub.cash SDK retrieves quotes and sends update notifications. It does not
 mint quotes into proofs or store those proofs for the consumer. Use a Cashu
 wallet library for that part of the flow.
 
+### Recommended dual-service transition
+
+To avoid coordinating a client release exactly at the July 31 cutoff, deploy a
+client that supports both services before the migration:
+
+1. Keep the v1 claim flow against `npub.cash` for proofs held by the v1 service.
+2. In parallel, run the v2 quote flow against `npubx.cash`, minting and storing
+   proofs as described above.
+3. Keep the completion state for the two flows separate.
+
+At the cutover, the v1 endpoint on `npub.cash` will stop working while the v2
+flow through `npubx.cash` continues. Retire the v1 adapter based on the
+published cutoff or an explicit client configuration. A `404 Not Found` or
+`410 Gone` after the cutoff can confirm retirement, but clients should not rely
+on a particular status code. Timeouts and `5xx` responses may be temporary;
+authentication errors require normal remediation. None of these failures alone
+should be treated as evidence that v1 was retired.
+
+After the cutover, v2 quotes are available through both domains. If a client
+temporarily synchronizes through both, it must deduplicate quotes by
+`(mintUrl, quoteId)`, not by API hostname.
+
 Before the cutover:
 
 1. Integrate and test against `https://npubx.cash`, which already provides the
    v2 service that will remain after the cutover.
-2. Replace the v1 claim and balance flow with the collection flow above, then
-   integrate the [v2 quote endpoint](/docs/api/endpoints#get-quotes) and
+2. Add the v2 collection flow alongside the existing v1 claim and balance flow.
+   Integrate the [v2 quote endpoint](/docs/api/endpoints#get-quotes) and
    [v2 authentication](/docs/api/authentication).
 3. Test multiple mints if supported; select the wallet using each quote's
    `mintUrl` rather than assuming one configured mint.
@@ -77,7 +99,8 @@ Before the cutover:
    and interrupted mint attempts recover safely.
 5. Make the service base URL configurable. Test against `npubx.cash` before the
    cutover, then use the canonical `https://npub.cash` API after the cutover.
-6. Stop v1 traffic before the end-of-July cutover.
+6. Keep both flows active through the cutoff, then retire the v1 adapter after
+   the cutover is confirmed.
 
 Funds held by the v1 service will be returned out of band. They will not be
 transferred through the v2 API.
