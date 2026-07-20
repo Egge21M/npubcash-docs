@@ -1,8 +1,8 @@
-# Production migration <Badge type="danger" text="v1 migration required by July 31, 2026" />
+# Production migration <Badge type="danger" text="v1 migration required by August 15, 2026" />
 
-We plan to consolidate the two public npub.cash services by the end of
-**July 2026**. After the cutover, both `npub.cash` and `npubx.cash` will point to
-the v2 service that currently serves `npubx.cash`.
+We plan to consolidate the two public npub.cash services on
+**August 15, 2026**. After the cutover, both `npub.cash` and `npubx.cash` will
+point to the v2 service that currently serves `npubx.cash`.
 
 ## What is changing
 
@@ -66,8 +66,8 @@ wallet library for that part of the flow.
 
 ### Recommended dual-service transition
 
-To avoid coordinating a client release exactly at the July 31 cutoff, deploy a
-client that supports both services before the migration:
+To avoid coordinating a client release exactly at the August 15 cutoff, deploy
+a client that supports both services before the migration:
 
 1. Keep the v1 claim flow against `npub.cash` for proofs held by the v1 service.
 2. In parallel, run the v2 quote flow against `npubx.cash`, minting and storing
@@ -117,7 +117,7 @@ domain through December 31, 2026.
 Prepare before the cutover:
 
 1. Make the API base URL and published Lightning-address domain configurable.
-2. Plan to switch both to `npub.cash` when the July cutover is complete.
+2. Plan to switch both to `npub.cash` when the August 15 cutover is complete.
 3. Generate new NIP-98 events for the `npub.cash` API URLs and reconnect any
    WebSocket subscriptions through `npub.cash`.
 4. Smoke-test authentication and quote retrieval after switching.
