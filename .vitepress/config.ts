@@ -7,7 +7,7 @@ export default defineConfig({
   themeConfig: {
     nav: [
       { text: "Home", link: "/" },
-      { text: "Migration", link: "/docs/migration" },
+      { text: "Migration Day", link: "/docs/migration-day" },
       { text: "API", link: "/docs/api/endpoints" },
       { text: "SDK", link: "/docs/sdk/npubcash-sdk" },
       { text: "Deployment", link: "/docs/server/deployment" },
@@ -17,6 +17,7 @@ export default defineConfig({
       {
         text: "Getting Started",
         items: [
+          { text: "Migration day", link: "/docs/migration-day" },
           { text: "Getting Started", link: "/docs/getting-started" },
           { text: "How does it work?", link: "/docs/how-does-it-work" },
           { text: "Production migration", link: "/docs/migration" },
