@@ -49,6 +49,23 @@ use the [production migration guide](/docs/migration).
 - Treat `npubx.cash` as a temporary compatibility domain and migrate away from
   it by December 31, 2026.
 
+## User funds
+
+Funds held by the legacy npub.cash service will be migrated **gradually and
+automatically after the cutoff**. You do not need to trigger the migration, but
+you should not expect all funds to appear immediately.
+
+npub.cash was already running before v1 and has undergone many changes since
+its initial release. We will thoroughly scan the old database and check the
+state of every proof. This includes looking for recoverable sats that may have
+been considered lost when a user initiated a withdrawal but never claimed the
+associated proofs.
+
+This will be a slow, deliberate process. The dataset is large, and verifying
+proof states requires communication with the mint. Moving gradually allows us
+to be thorough while also preserving npub.cash users' privacy with respect to
+the mint.
+
 ## What you need to do
 
 ### I use the v1 API at `npub.cash`

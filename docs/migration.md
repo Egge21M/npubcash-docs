@@ -102,11 +102,24 @@ Before the cutover:
 6. Keep both flows active through the cutoff, then retire the v1 adapter after
    the cutover is confirmed.
 
-Funds held by the v1 service will be returned out of band. They will not be
-transferred through the v2 API.
-
 If your client cannot support this flow before the cutover, disable its
 npub.cash integration until it supports v2.
+
+## User funds
+
+Funds held by the legacy npub.cash service will be migrated gradually and
+automatically after the cutoff. Users do not need to trigger the migration,
+but the process will not complete immediately.
+
+Because npub.cash predates v1 and has changed many times since its initial
+release, we will thoroughly scan the old database and check the state of every
+proof. This includes looking for recoverable sats that may have been considered
+lost when a user initiated a withdrawal but never claimed the associated
+proofs.
+
+The dataset is large, and checking proof states requires communication with the
+mint. The migration will therefore proceed deliberately so we can be thorough
+and preserve npub.cash users' privacy with respect to the mint.
 
 ## If you use `npubx.cash` (v2)
 
